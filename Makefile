@@ -1,0 +1,41 @@
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+RM = rm -f
+
+NAME = cub3d
+
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+SRCS = check_map.c error_handling.c flood_filling.c main.c parsing.c place_img.c events.c key_event_utils.c init_game.c utils.c enemy.c
+OBJS = $(SRCS:.c=.o)
+
+MLX_DIR := ./MLX42
+MLX_LIB := $(MLX_DIR)/build/libmlx42.a
+LIBS := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+
+all: $(NAME)
+
+$(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_LIB) $(LIBS) -o $(NAME)
+
+$(LIBFT):
+	make -C $(LIBFT_DIR)
+
+$(MLX_LIB):
+	cd $(MLX_DIR) && cmake -B build && cmake --build build -j4
+
+clean:
+	$(RM) $(OBJS)
+	make -C $(LIBFT_DIR) clean
+
+fclean: clean
+	$(RM) $(NAME)
+	make -C $(LIBFT_DIR) fclean
+	rm -rf $(MLX_DIR)/build/libmlx42.a
+re: fclean all
+
+%.o: %.c
+	$(CC) $(CFLAGS) -I./MLX42/include -I$(LIBFT_DIR) -c $< -o $@
+
+.PHONY: all clean fclean re
