@@ -7,7 +7,7 @@ NAME = cub3d
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS = check_map.c error_handling.c flood_filling.c main.c parsing.c place_img.c events.c key_event_utils.c init_game.c utils.c enemy.c
+SRCS = 
 OBJS = $(SRCS:.c=.o)
 
 MLX_DIR := ./MLX42
