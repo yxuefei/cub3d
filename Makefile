@@ -7,12 +7,13 @@ NAME = cub3d
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS = 
+SRCS = src/render.c src/cub3d_parser.c src/utils/error_handling.c
 OBJS = $(SRCS:.c=.o)
 
 MLX_DIR := ./MLX42
 MLX_LIB := $(MLX_DIR)/build/libmlx42.a
-LIBS := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+# LIBS := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+LIBS := -lglfw -lX11 -lXext -lm -ldl -lpthread
 
 all: $(NAME)
 

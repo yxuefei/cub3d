@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:13:16 by xueyang           #+#    #+#             */
-/*   Updated: 2025/08/03 15:37:33 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/08/19 16:38:52 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,25 @@
 
 void	error_general(char *msg)
 {
-	perror("Error\n");
-	perror(msg);
+	write(2, "Error: ", 7);
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
 	exit(EXIT_FAILURE);
+}
+
+void	free_array(char **str)
+{
+	int i;
+
+	if (!str)
+		return ;
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }
 
 void	error_read_map(char *msg, t_game *game)
