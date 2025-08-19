@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:12:54 by xueyang           #+#    #+#             */
-/*   Updated: 2025/03/08 17:53:21 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/08/19 13:37:33 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/cub.h"
 
 static void	fill_map(int fd, t_game *game)
 {

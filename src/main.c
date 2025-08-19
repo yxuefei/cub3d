@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:24:30 by xueyang           #+#    #+#             */
-/*   Updated: 2025/03/08 21:08:37 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/08/19 13:37:39 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "include/cub.h"
 
 static void	check_file_name(char **av)
 {
