@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: omalovic <omalovic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/27 14:02:41 by omalovic          #+#    #+#             */
+/*   Updated: 2025/08/27 14:02:59 by omalovic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub.h"
 
 static void draw_vertical_line(mlx_image_t *img, int x, int y_start, int y_end, int color)
@@ -84,31 +96,4 @@ void render_frame(t_cub_data *data, t_player *player, mlx_image_t *img)
 
         draw_vertical_line(img, x, draw_start, draw_end, color);
     }
-}
-
-int main(int argc, char **argv)
-{
-    if (argc != 2)
-    {
-        printf("Usage: %s map.cub\n", argv[0]);
-        return 1;
-    }
-
-    t_cub_data *data = parse_cub_file(argv[1]);
-    t_player player;
-    player.x = data->player_x + 0.5;
-    player.y = data->player_y + 0.5;
-    player.dir_x = -1; // смотри на север
-    player.dir_y = 0;
-    player.plane_x = 0;
-    player.plane_y = FOV;
-
-    void *mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", 1);
-    mlx_image_t *img = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT);
-
-    render_frame(data, &player, img);
-    mlx_image_to_window(mlx, img, 0, 0);
-    mlx_loop(mlx);
-
-    return 0;
 }

@@ -1,46 +1,28 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 17:24:30 by xueyang           #+#    #+#             */
-/*   Updated: 2025/08/19 16:21:03 by alex             ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/cub.h"
 
-static void	check_file_name(char **av)
+int main(int argc, char **argv)
 {
-	int	i;
+    if (argc != 2)
+    {
+        printf("Usage: %s map.cub\n", argv[0]);
+        return 1;
+    }
 
-	i = ft_strlen(av[1]);
-	if (i < 5 || av[1][i - 1] != 'r' || av[1][i - 2] != 'e' || \
-		av[1][i - 3] != 'b' || av[1][i - 4] != '.')
-		error_general("argument error: map file name must end with .ber");
+    t_cub_data *data = parse_cub_file(argv[1]);
+    t_player player;
+    player.x = data->player_x + 0.5;
+    player.y = data->player_y + 0.5;
+    player.dir_x = -1; // смотри на север
+    player.dir_y = 0;
+    player.plane_x = 0;
+    player.plane_y = FOV;
+
+    void *mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", 1);
+    mlx_image_t *img = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT);
+
+    render_frame(data, &player, img);
+    mlx_image_to_window(mlx, img, 0, 0);
+    mlx_loop(mlx);
+
+    return 0;
 }
-
-// int	main(int ac, char **av)
-// {
-// 	t_game	*game;
-
-// 	if (ac != 2)
-// 		error_general("argument error: arg num wrong");
-// 	check_file_name(av);
-// 	game = init_game(av);
-// 	place_img(game, game->real_map);
-// 	mlx_key_hook(game->mlx, key_hook, game);
-// 	mlx_loop(game->mlx);
-// 	mlx_terminate(game->mlx);
-// 	return (EXIT_SUCCESS);
-// }
-
-
-
-// void	checkleak(void)
-// {
-// 	system("leaks so_long");
-// }
-// atexit(&checkleak);
