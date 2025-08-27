@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: omalovic <omalovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/08/19 16:31:44 by alex             ###   ########.fr       */
+/*   Updated: 2025/08/27 16:21:46 by omalovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,23 +112,30 @@ typedef struct s_player
 	double plane_x, plane_y;
 } t_player;
 
+typedef struct s_tex
+{
+    mlx_texture_t *tex; // текстура, загруженная из файла
+    int width;
+    int height;
+    uint32_t *pixels;   // указатель на пиксели из текстуры
+} t_tex;
+
 typedef struct s_game
 {
-	mlx_t		*mlx;
-	int			fd;
-	t_img		*img;
-	t_map		*map;
-	t_player	*player;
-	t_enemy		*enemy;
-	int			count;
-	int			finish_game;
-	int			reach_collect;
-	int			reach_exit;
-	char		**real_map;
-}				t_game;
+    void *mlx;
+    t_cub_data *data;
+    t_player player;
+    mlx_image_t *img;  // изображение для рендеринга
+    t_tex tex[4];      // текстуры стен: 0-NO, 1-SO, 2-WE, 3-EA
+} t_game;
 
 // render.c
 void		render_frame(t_cub_data *data, t_player *player, mlx_image_t *img);
+void load_textures(t_game *game);
+void draw_floor_ceiling(mlx_image_t *img, int y_start, int y_end, uint32_t floor_color, uint32_t ceiling_color);
+void render_frame_textured_hook(void *param);
+void handle_input_hook(mlx_key_data_t key, void *param);
+
 
 // cub3d_parser.c
 t_cub_data	*parse_cub_file(const char *filename);
