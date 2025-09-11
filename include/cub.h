@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/09 15:01:48 by alex             ###   ########.fr       */
+/*   Updated: 2025/09/11 23:35:21 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ typedef struct s_player
 
 typedef struct s_tex
 {
-    mlx_texture_t *tex; // текстура, загруженная из файла
+    mlx_texture_t *tex; // texture loaded from the file
     int width;
     int height;
 } t_tex;
@@ -131,8 +131,8 @@ typedef struct s_game
     void *mlx;
     t_cub_data *data;
     t_player player;
-    mlx_image_t *img;  // изображение для рендеринга
-    t_tex tex[4];      // текстуры стен: 0-NO, 1-SO, 2-WE, 3-EA
+    mlx_image_t *img;  // image for rendering
+    t_tex tex[4];      // textures of walls: 0-NO, 1-SO, 2-WE, 3-EA
 } t_game;
 
 // render.c
