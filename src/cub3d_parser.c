@@ -49,7 +49,7 @@ static void parse_color(int *color, char *line)
     int r, g, b;
     char *trimmed;
 
-    trimmed = ft_strtrim(line + 1, " \t\n"); // пропускаем F или C
+    trimmed = ft_strtrim(line + 1, " \t\n"); // pass F or C
     parts = ft_split(trimmed, ',');
     free(trimmed);
 
@@ -87,7 +87,7 @@ static void append_map_line(t_cub_data *data, char *line)
         i++;
     }
 
-    // удаляем символ \n в конце строки
+    // remove \n at the end of the line
     int len = ft_strlen(line);
     if (len > 0 && line[len - 1] == '\n')
         line[len - 1] = '\0';
@@ -140,7 +140,7 @@ static void validate_map(t_cub_data *data)
     if (!data->map || !data->map[0])
         error_general("empty map");
 
-    // считаем высоту карты
+    // count the height of the map
     while (data->map[height])
         height++;
 
@@ -148,7 +148,7 @@ static void validate_map(t_cub_data *data)
 
     while (i < height)
     {
-        // проверка прямоугольности
+        // check rectanular
         if ((int)ft_strlen(data->map[i]) != width)
             error_general("map is not rectangular");
 
@@ -157,11 +157,11 @@ static void validate_map(t_cub_data *data)
         {
             char c = data->map[i][j];
 
-            // проверка допустимых символов
+            // check the right symbols
             if (c != '0' && c != '1' && c != ' ')
                 error_general("invalid character in map");
 
-            // проверка замкнутости для пустой клетки
+            // check for closure for the last cell
             if (c == '0')
             {
                 if (i == 0 || i == height - 1 || j == 0 || j == width - 1)
@@ -220,7 +220,7 @@ t_cub_data *parse_cub_file(const char *filename)
             else if (ft_strncmp(trimmed, "SO", 2) == 0) check_duplicates(data, "SO");
             else if (ft_strncmp(trimmed, "WE", 2) == 0) check_duplicates(data, "WE");
             else if (ft_strncmp(trimmed, "EA", 2) == 0) check_duplicates(data, "EA");
-            parse_texture(data, line); // передаём оригинальную строку
+            parse_texture(data, line); // give the original line
         }
         else if (!map_started && ft_strncmp(trimmed, "C", 1) == 0)
         {
@@ -235,7 +235,7 @@ t_cub_data *parse_cub_file(const char *filename)
         else if (trimmed[0] != '\0')
         {
             map_started = 1;
-            append_map_line(data, line); // оригинальная строка
+            append_map_line(data, line); // original line
         }
         else if (map_started && trimmed[0] == '\0')
         {
@@ -259,39 +259,3 @@ t_cub_data *parse_cub_file(const char *filename)
 
     return data;
 }
-
-// t_cub_data *parse_cub_file(const char *filename)
-// {
-// 	int			fd;
-// 	char		*line;
-// 	t_cub_data	*data;
-
-// 	data = ft_calloc(1, sizeof(t_cub_data));
-// 	if (!data)
-// 		error_general("malloc");
-// 	fd = open(filename, O_RDONLY);
-// 	if (fd < 0)
-// 		error_general("open");
-// 	line = get_next_line(fd);
-// 	while (line)
-// 	{
-// 		if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0
-// 			|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0)
-// 			parse_texture(data, line);
-// 		else if (ft_strncmp(line, "C ", 2) == 0)
-// 			parse_color(&data->ceiling_color, line);
-// 		else if (ft_strncmp(line, "F ", 2) == 0)
-// 			parse_color(&data->floor_color, line);
-// 		else if (line[0] != '\n')
-// 			append_map_line(data, line);
-// 		free(line);
-// 		line = get_next_line(fd);
-// 	}
-// 	close(fd);
-// 	if (!data->no || !data->so || !data->we || !data->ea
-//         || data->floor_color == -1 || data->ceiling_color == -1)
-//         error_general("missing identifier");
-// 	find_player(data);
-// 	validate_map(data);
-// 	return (data);
-// }
