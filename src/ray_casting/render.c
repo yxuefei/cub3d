@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omalovic <omalovic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 14:02:41 by omalovic          #+#    #+#             */
-/*   Updated: 2025/08/27 16:21:09 by omalovic         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:54:16 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 void load_textures(t_game *game)
 {
-    char *paths[4] = {game->data->no, game->data->so, game->data->we, game->data->ea};
+    char *paths[4] = {
+        game->data->no,
+        game->data->so,
+        game->data->we,
+        game->data->ea
+    };
 
     for (int i = 0; i < 4; i++)
     {
-        game->tex[i].tex = mlx_load_png(paths[i]); // или mlx_load_xpm42
+        game->tex[i].tex = mlx_load_png(paths[i]);
         if (!game->tex[i].tex)
             error_general("failed to load texture");
 
-        game->tex[i].width = game->tex[i].tex->width;
+        game->tex[i].width  = game->tex[i].tex->width;
         game->tex[i].height = game->tex[i].tex->height;
-        game->tex[i].pixels = (uint32_t *)game->tex[i].tex->pixels;
+        // !!! pixels не трогаем, потому что в MLX42 это uint8_t*
     }
 }
 
@@ -44,7 +49,9 @@ void draw_floor_ceiling(mlx_image_t *img, int y_start, int y_end, uint32_t floor
 
 void render_frame_textured(t_game *game)
 {
-    draw_floor_ceiling(game->img, 0, WIN_HEIGHT, game->data->floor_color, game->data->ceiling_color);
+    // фон
+    draw_floor_ceiling(game->img, 0, WIN_HEIGHT,
+                       game->data->floor_color, game->data->ceiling_color);
 
     for (int x = 0; x < WIN_WIDTH; x++)
     {
@@ -59,23 +66,27 @@ void render_frame_textured(t_game *game)
         double delta_dist_x = (ray_dir_x == 0) ? 1e30 : fabs(1 / ray_dir_x);
         double delta_dist_y = (ray_dir_y == 0) ? 1e30 : fabs(1 / ray_dir_y);
         int step_x, step_y;
-        int hit = 0, side;
+        int hit = 0, side = 0;
 
-        if (ray_dir_x < 0) { step_x = -1; side_dist_x = (game->player.x - map_x) * delta_dist_x; }
+        if (ray_dir_x < 0)
+        { step_x = -1; side_dist_x = (game->player.x - map_x) * delta_dist_x; }
         else { step_x = 1; side_dist_x = (map_x + 1.0 - game->player.x) * delta_dist_x; }
 
-        if (ray_dir_y < 0) { step_y = -1; side_dist_y = (game->player.y - map_y) * delta_dist_y; }
+        if (ray_dir_y < 0)
+        { step_y = -1; side_dist_y = (game->player.y - map_y) * delta_dist_y; }
         else { step_y = 1; side_dist_y = (map_y + 1.0 - game->player.y) * delta_dist_y; }
 
         while (!hit)
         {
-            if (side_dist_x < side_dist_y) { side_dist_x += delta_dist_x; map_x += step_x; side = 0; }
-            else { side_dist_y += delta_dist_y; map_y += step_y; side = 1; }
+            if (side_dist_x < side_dist_y)
+            { side_dist_x += delta_dist_x; map_x += step_x; side = 0; }
+            else
+            { side_dist_y += delta_dist_y; map_y += step_y; side = 1; }
 
             if (game->data->map[map_y][map_x] == '1') hit = 1;
         }
 
-        double perp_wall_dist = (side == 0) ? 
+        double perp_wall_dist = (side == 0) ?
             (map_x - game->player.x + (1 - step_x) / 2) / ray_dir_x :
             (map_y - game->player.y + (1 - step_y) / 2) / ray_dir_y;
 
@@ -85,27 +96,39 @@ void render_frame_textured(t_game *game)
         int draw_end = line_height / 2 + WIN_HEIGHT / 2;
         if (draw_end >= WIN_HEIGHT) draw_end = WIN_HEIGHT - 1;
 
-        // текстура
+        // --- выбор текстуры ---
         int tex_num;
-        if (!side) tex_num = (ray_dir_x > 0) ? 0 : 1; // NO/SO
-        else tex_num = (ray_dir_y > 0) ? 2 : 3; // WE/EA
+        if (side == 0) // по X
+            tex_num = (ray_dir_x > 0) ? EA : WE;
+        else           // по Y
+            tex_num = (ray_dir_y > 0) ? SO : NO;
 
         t_tex *tex = &game->tex[tex_num];
 
-        double wall_x = side ? game->player.x + perp_wall_dist * ray_dir_x :
-                               game->player.y + perp_wall_dist * ray_dir_y;
+        // координата попадания в стену
+        double wall_x = (side == 0) ?
+            game->player.y + perp_wall_dist * ray_dir_y :
+            game->player.x + perp_wall_dist * ray_dir_x;
         wall_x -= floor(wall_x);
 
         int tex_x = (int)(wall_x * (double)tex->width);
-        if ((!side && ray_dir_x > 0) || (side && ray_dir_y < 0))
+        if ((side == 0 && ray_dir_x > 0) || (side == 1 && ray_dir_y < 0))
             tex_x = tex->width - tex_x - 1;
 
         for (int y = draw_start; y < draw_end; y++)
         {
             int d = y * 256 - WIN_HEIGHT * 128 + line_height * 128;
             int tex_y = ((d * tex->height) / line_height) / 256;
-            uint32_t color = tex->pixels[tex_y * tex->width + tex_x];
-            if (side) color = (color >> 1) & 0x7F7F7F; // тень боковой стены
+
+            // --- берём пиксель из mlx_texture_t ---
+            uint8_t *pix = tex->tex->pixels;
+            int idx = (tex_y * tex->width + tex_x) * 4; // RGBA
+            uint32_t color = (pix[idx + 0] << 24) | // R
+                             (pix[idx + 1] << 16) | // G
+                             (pix[idx + 2] << 8)  | // B
+                             (pix[idx + 3]);        // A
+
+            if (side) color = (color >> 1) & 0x7F7F7F; // затемняем боковые стены
             mlx_put_pixel(game->img, x, y, color);
         }
     }
