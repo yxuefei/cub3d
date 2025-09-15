@@ -12,13 +12,17 @@ OBJS = $(SRCS:.c=.o)
 
 MLX_DIR := ./MLX42
 MLX_LIB := $(MLX_DIR)/build/libmlx42.a
-# LIBS := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
-LIBS := -lglfw -lX11 -lXext -lm -ldl -lpthread
+LDFLAGS = -L/opt/homebrew/lib -lglfw
+LIBS := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+# LIBS := -lglfw -lX11 -lXext -lm -ldl -lpthread
 
 all: $(NAME)
 
+# $(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
+# 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_LIB) $(LIBS) -o $(NAME)
+
 $(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_LIB) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(LIBFT) $(MLX_LIB) $(LIBS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
