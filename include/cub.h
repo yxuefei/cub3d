@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/16 00:47:41 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/23 00:34:07 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,14 @@ void render_frame_textured(t_game *game);
 // cub3d_parser.c
 t_cub_data	*parse_cub_file(const char *filename);
 
-void		check_map(t_game *game, char **map);
-void		is_valid_map(t_game *game, char **map, int p_x, int p_y);
-void		read_map(t_game *game, char *filename);
 void		error_general(char *msg);
+
+//parsing
+int	get_map_height(char **map);
+int	validate_map(t_cub_data *d);
+int	check_borders(char **map, int height);
+int	check_map_elements(t_cub_data *d);
+int	fix_and_validate_player_pos(t_cub_data *d);
 
 
 #endif
