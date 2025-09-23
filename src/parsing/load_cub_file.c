@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:51:12 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 01:05:05 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/23 19:55:39 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,20 @@ static char	**grow_lines(char **arr, int *cap, int count)
 	return (new_arr);
 }
 
+static void	free_partial(char **arr, int n)
+{
+	int i;
+
+	if (!arr) return;
+	i = 0;
+	while (i < n)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
 static int	read_all_lines(int fd, char ***out_lines)
 {
 	char	**arr;
@@ -68,9 +82,14 @@ static int	read_all_lines(int fd, char ***out_lines)
 			break ;
 		if (n + 1 >= cap)
 		{
-			arr = grow_lines(arr, &cap, n);
-			if (!arr)
+			char **tmp = grow_lines(arr, &cap, n);
+			if (!tmp)
+			{
+				free(line);
+				free_partial(arr, n);
 				return (0);
+			}
+			arr = tmp;
 		}
 		arr[n++] = line;
 	}

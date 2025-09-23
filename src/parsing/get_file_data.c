@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:00:54 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 19:18:31 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/23 19:57:04 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,46 @@ static int	is_nonblank_line(const char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (!is_blank_char((unsigned char)s[i]) && s[i] != '\n')
+		if (!is_blank((unsigned char)s[i]) && s[i] != '\n')
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
+static int	assign_tex(char **dst, const char *line_after_id)
+{
+	char	*p;
+
+	p = parse_texture_path(line_after_id);
+	if (!p)
+		return (-1);
+	*dst = p;
+	return (1);
+}
+
 static int	parse_header_line(t_cub_data *d, const char *line)
 {
 	if (starts_with_id(line, "NO"))
-		return ((d->no = parse_texture_path(line + 2)) != NULL);
+		return (assign_tex(&d->no, line + 2));
 	if (starts_with_id(line, "SO"))
-		return ((d->so = parse_texture_path(line + 2)) != NULL);
+		return (assign_tex(&d->so, line + 2));
 	if (starts_with_id(line, "WE"))
-		return ((d->we = parse_texture_path(line + 2)) != NULL);
+		return (assign_tex(&d->we, line + 2));
 	if (starts_with_id(line, "EA"))
-		return ((d->ea = parse_texture_path(line + 2)) != NULL);
+		return (assign_tex(&d->ea, line + 2));
 	if (starts_with_id(line, "F"))
-		return ((d->floor_color = parse_color_string(line + 1)) != -1);
+	{
+		if (set_floor_color_from_line(d, line))
+			return (1);
+		return (-1);
+	}
 	if (starts_with_id(line, "C"))
-		return ((d->ceiling_color = parse_color_string(line + 1)) != -1);
+	{
+		if (set_ceiling_color_from_line(d, line))
+			return (1);
+		return (-1);
+	}
 	return (0);
 }
 
