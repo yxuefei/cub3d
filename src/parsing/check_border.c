@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 00:02:24 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/16 01:16:41 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/23 20:40:05 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,12 +128,12 @@ int	check_right(char **map, int map_height)
 int	check_borders(char **map, int map_height)
 {
 	if (check_top(map))
-		return (1);
+		return (0);
 	if (check_bottom(map, map_height))
-		return (1);
+		return (0);
 	if (check_left(map, map_height))
-		return (1);
+		return (0);
 	if (check_right(map, map_height))
-		return (1);
-	return (0);
+		return (0);
+	return (1);
 }

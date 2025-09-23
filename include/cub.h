@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 19:19:40 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/23 22:16:46 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,12 +154,14 @@ char	*parse_texture_path(const char *s);
 void	free_lines(char **lines);
 int		load_cub_file(const char *path, char ***lines);
 int		check_file(char *arg);
-int 	load_and_parse(const char *path, t_cub_data *d);
+int		load_and_parse(char *path, t_cub_data *d);
 int		validate_textures(t_cub_data *d);
 int		set_floor_color_from_line(t_cub_data *d, const char *line);
 int		set_ceiling_color_from_line(t_cub_data *d, const char *line);
 int		find_map_range(char **lines, int *start, int *end);
 char	**create_game_map(char **lines, int start, int end);
+int		check_open_tiles_closed(char **map);
+
 
 
 

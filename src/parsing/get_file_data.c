@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:00:54 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 19:57:04 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/23 22:22:14 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static int	assign_tex(char **dst, const char *line_after_id)
 {
 	char	*p;
 
+	if (*dst)
+		return (-1);
 	p = parse_texture_path(line_after_id);
 	if (!p)
 		return (-1);
@@ -86,12 +88,16 @@ static int	parse_header_line(t_cub_data *d, const char *line)
 		return (assign_tex(&d->ea, line + 2));
 	if (starts_with_id(line, "F"))
 	{
+		if (d->floor_color != -1)
+			return (-1);
 		if (set_floor_color_from_line(d, line))
 			return (1);
 		return (-1);
 	}
 	if (starts_with_id(line, "C"))
 	{
+		if (d->ceiling_color != -1)
+			return (-1);
 		if (set_ceiling_color_from_line(d, line))
 			return (1);
 		return (-1);
