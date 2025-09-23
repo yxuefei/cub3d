@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 00:34:07 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/23 01:13:37 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,21 @@ t_cub_data	*parse_cub_file(const char *filename);
 void		error_general(char *msg);
 
 //parsing
-int	get_map_height(char **map);
-int	validate_map(t_cub_data *d);
-int	check_borders(char **map, int height);
-int	check_map_elements(t_cub_data *d);
-int	fix_and_validate_player_pos(t_cub_data *d);
+int		get_map_height(char **map);
+int		validate_map(t_cub_data *d);
+int		check_borders(char **map, int height);
+int		check_map_elements(t_cub_data *d);
+int		fix_and_validate_player_pos(t_cub_data *d);
+int		check_map_is_last(char **lines, int map_end);
+int		parse_scene(char **lines, t_cub_data *d);
+int		parse_color_string(const char *s);
+char	*parse_texture_path(const char *s);
+void	free_lines(char **lines);
+int		load_cub_file(const char *path, char ***lines);
+int		check_file(char *arg);
+int 	load_and_parse(const char *path, t_cub_data *d);
+
+
 
 
 #endif
