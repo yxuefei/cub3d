@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:00:54 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 01:09:41 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/23 19:18:31 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,37 +40,27 @@ static int	starts_with_id(const char *s, const char *id)
 	return (1);
 }
 
-static int	is_map_start_line(const char *s)
+static int	is_map_line(const char *s)
 {
 	int	i;
 
 	i = 0;
 	skip_ws(s, &i);
-	if (s[i] == '0' || s[i] == '1')
-		return (1);
-	return (0);
+	return (s[i] == '0' || s[i] == '1');
 }
 
-static char	**dup_map(char **lines, int start, int end)
+static int	is_nonblank_line(const char *s)
 {
-	char	**map;
-	int		h;
-	int		i;
+	int	i;
 
-	h = end - start;
-	map = (char **)malloc(sizeof(char *) * (h + 1));
-	if (!map)
-		return (NULL);
 	i = 0;
-	while (i < h)
+	while (s[i])
 	{
-		map[i] = ft_strdup(lines[start + i]);
-		if (!map[i])
-			return (free_lines(map), NULL);
+		if (!is_blank_char((unsigned char)s[i]) && s[i] != '\n')
+			return (1);
 		i++;
 	}
-	map[i] = NULL;
-	return (map);
+	return (0);
 }
 
 static int	parse_header_line(t_cub_data *d, const char *line)
@@ -93,29 +83,28 @@ static int	parse_header_line(t_cub_data *d, const char *line)
 int	parse_scene(char **lines, t_cub_data *d)
 {
 	int	i;
-	int	map_s;
-	int	map_e;
+	int	r;
+	int	s;
+	int	e;
 
 	if (!lines || !d)
 		return (0);
 	i = 0;
-	while (lines[i] && !is_map_start_line(lines[i]))
+	while (lines[i] && !is_map_line(lines[i]))
 	{
-		if (*lines[i] != '\0' && *lines[i] != '\n')
-			if (parse_header_line(d, lines[i]) == 0)
-				;
+		r = parse_header_line(d, lines[i]);
+		if (r == -1)
+			return (0);
+		if (r == 0 && is_nonblank_line(lines[i]))
+			return (0);
 		i++;
 	}
-	if (!lines[i] || !is_map_start_line(lines[i]))
+	if (!find_map_range(lines, &s, &e))
 		return (0);
-	map_s = i;
-	while (lines[i])
-		i++;
-	map_e = i;
-	d->map = dup_map(lines, map_s, map_e);
+	d->map = create_game_map(lines, s, e);
 	if (!d->map)
 		return (0);
-	if (!check_map_is_last(lines, map_e))
+	if (!check_map_is_last(lines, e))
 		return (0);
 	return (1);
 }
