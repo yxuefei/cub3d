@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/11 23:35:21 by alex             ###   ########.fr       */
+/*   Updated: 2025/09/24 15:11:08 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,42 +133,34 @@ typedef struct s_game
     t_player player;
     mlx_image_t *img;  // image for rendering
     t_tex tex[4];      // textures of walls: 0-NO, 1-SO, 2-WE, 3-EA
+	// added
+	int win_width;
+	int win_height;
 } t_game;
 
+typedef struct s_ray
+{
+    double ray_dir_x;
+    double ray_dir_y;
+    int map_x;
+    int map_y;
+    double side_dist_x;
+    double side_dist_y;
+    double delta_dist_x;
+    double delta_dist_y;
+    int step_x;
+    int step_y;
+} t_ray;
+
 // render.c
-void		render_frame(t_cub_data *data, t_player *player, mlx_image_t *img);
 void load_textures(t_game *game);
-void draw_floor_ceiling(mlx_image_t *img, int y_start, int y_end, uint32_t floor_color, uint32_t ceiling_color);
 // void render_frame_textured_hook(void *param);
-void handle_input_hook(mlx_key_data_t key, void *param);
 void render_frame_textured(t_game *game);
 
 // cub3d_parser.c
 t_cub_data	*parse_cub_file(const char *filename);
 
-void		check_map(t_game *game, char **map);
-void		free_array(char **arr);
-void		is_valid_map(t_game *game, char **map, int p_x, int p_y);
-void		read_map(t_game *game, char *filename);
-void		place_img(t_game *game, char **map);
-void		put_image(t_game *game, int i, int j, mlx_image_t *img);
-void		key_event_up(t_game *game);
-void		key_event_down(t_game *game);
-void		key_event_left(t_game *game);
-void		key_event_right(t_game *game);
-void		key_hook(mlx_key_data_t keydata, void *param);
-void		finish_game(t_game *game);
-mlx_image_t	*process_png(char *path, t_game *game);
-t_img		*init_img(t_game *game);
-void		init_mlx(t_game *game);
-t_map		*init_map(t_game *game);
-t_player	*init_player(t_game *game);
-t_game		*init_game(char **av);
-void		error_general(char *msg);
-void		error_read_map(char *msg, t_game *game);
-void		error_free_map(char *msg, t_game *game);
-void		error_free_all(char *msg, t_game *game);
-void		normal_exit(char *msg, t_game *game);
-t_enemy		*init_enemy(t_game *game);
+// errors:
+void	error_general(char *msg);
 
 #endif

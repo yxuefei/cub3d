@@ -1,57 +1,53 @@
 #include "../include/cub.h"
 
-void game_loop(void *param)
+void rotate_player(t_game *game, int direction)
 {
-	t_game *game = (t_game *)param;
-	double move_speed = 0.05;
-	double rot_speed = 0.03;
+	double	angle;
+	double	cos_a;
+	double	sin_a;
+	double	tmp;
 
-	// Moves of the player clicking on the buttoms
+	angle = 0.03 * direction;
+	cos_a = cos(angle);
+	sin_a = sin(angle);
+	tmp = game->player.dir_x;
+	game->player.dir_x = game->player.dir_x * cos_a - game->player.dir_y * sin_a;
+	game->player.dir_y = tmp * sin_a + game->player.dir_y * cos_a;
+	tmp = game->player.plane_x;
+	game->player.plane_x = game->player.plane_x * cos_a - game->player.plane_y * sin_a;
+	game->player.plane_y = tmp * sin_a + game->player.plane_y * cos_a;
+}
+
+void move_player(t_game *game, int direction)
+{
+	double	speed;
+	double	next_x;
+	double	next_y;
+
+	speed = 0.05 * direction;
+	next_x = game->player.x + game->player.dir_x * speed;
+	next_y = game->player.y + game->player.dir_y * speed;
+	if (game->data->map[(int)game->player.y][(int)next_x] != '1')
+		game->player.x = next_x;
+	if (game->data->map[(int)next_y][(int)game->player.x] != '1')
+		game->player.y = next_y;
+}
+
+void	game_loop(void *param)
+{
+	t_game	*game;
+
+	game = (t_game *)param;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
-	{
-		if (game->data->map[(int)(game->player.y)]
-							[(int)(game->player.x + game->player.dir_x * move_speed)] != '1')
-			game->player.x += game->player.dir_x * move_speed;
-		if (game->data->map[(int)(game->player.y + game->player.dir_y * move_speed)]
-							[(int)(game->player.x)] != '1')
-			game->player.y += game->player.dir_y * move_speed;
-	}
+		move_player(game, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
-	{
-		if (game->data->map[(int)(game->player.y)]
-							[(int)(game->player.x - game->player.dir_x * move_speed)] != '1')
-			game->player.x -= game->player.dir_x * move_speed;
-		if (game->data->map[(int)(game->player.y - game->player.dir_y * move_speed)]
-							[(int)(game->player.x)] != '1')
-			game->player.y -= game->player.dir_y * move_speed;
-	}
-
-	// Turns
-	if (mlx_is_key_down(game->mlx, MLX_KEY_A)) // left
-	{
-		double old_dir_x = game->player.dir_x;
-		game->player.dir_x = game->player.dir_x * cos(rot_speed) - game->player.dir_y * sin(rot_speed);
-		game->player.dir_y = old_dir_x * sin(rot_speed) + game->player.dir_y * cos(rot_speed);
-
-		double old_plane_x = game->player.plane_x;
-		game->player.plane_x = game->player.plane_x * cos(rot_speed) - game->player.plane_y * sin(rot_speed);
-		game->player.plane_y = old_plane_x * sin(rot_speed) + game->player.plane_y * cos(rot_speed);
-	}
-	if (mlx_is_key_down(game->mlx, MLX_KEY_D)) // right
-	{
-		double old_dir_x = game->player.dir_x;
-		game->player.dir_x = game->player.dir_x * cos(-rot_speed) - game->player.dir_y * sin(-rot_speed);
-		game->player.dir_y = old_dir_x * sin(-rot_speed) + game->player.dir_y * cos(-rot_speed);
-
-		double old_plane_x = game->player.plane_x;
-		game->player.plane_x = game->player.plane_x * cos(-rot_speed) - game->player.plane_y * sin(-rot_speed);
-		game->player.plane_y = old_plane_x * sin(-rot_speed) + game->player.plane_y * cos(-rot_speed);
-	}
-
+		move_player(game, -1);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
+		rotate_player(game, 1);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+		rotate_player(game, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
-
-	// render
 	render_frame_textured(game);
 }
 
