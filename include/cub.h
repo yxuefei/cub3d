@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/24 15:11:08 by alex             ###   ########.fr       */
+/*   Updated: 2025/09/29 16:17:31 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,26 @@ typedef struct s_ray
     int step_x;
     int step_y;
 } t_ray;
+
+typedef struct s_column_params
+{
+	int		draw_start;
+	int		draw_end;
+	int		line_height;
+	int		side;
+	double	perp_wall_dist;
+	int		tex_x;
+	t_tex	*tex;
+}	t_column_params;
+
+typedef struct s_wall_column_params
+{
+	int			d;
+	int			tex_y;
+	uint8_t		*pix;
+	int			idx;
+	uint32_t	color;
+}	t_wall_column_params;
 
 // render.c
 void load_textures(t_game *game);
