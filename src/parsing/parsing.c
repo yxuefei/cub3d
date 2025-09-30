@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 00:43:05 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 20:41:56 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/30 15:08:05 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	load_and_parse(char *path, t_cub_data *d)
 		return (0);
 	if (!load_cub_file(path, &lines))
 		return (0);
+	if (!lines)
+		printf("lines is NULL\n");
 	if (!parse_scene(lines, d))
 		return (fail_cleanup(lines, d));
 	free_lines(lines);

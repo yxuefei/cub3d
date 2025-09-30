@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 19:11:32 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 19:13:26 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/30 14:42:52 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	**create_game_map(char **lines, int start, int end)
 	char	**map;
 	int		h;
 	int		i;
+	int		len;
 
 	if (!lines || start < 0 || end < start)
 		return (NULL);
@@ -65,9 +66,16 @@ char	**create_game_map(char **lines, int start, int end)
 	i = 0;
 	while (i < h)
 	{
-		map[i] = ft_strdup(lines[start + i]);
+		len = 0;
+		while (lines[start + i][len] && lines[start + i][len] != '\n')
+			len++;
+		map[i] = ft_substr(lines[start + i], 0, len);
 		if (!map[i])
-			return (free_lines(map), NULL);
+		{
+			map[i] = NULL;
+			free_lines(map);
+			return (NULL);
+		}
 		i++;
 	}
 	map[i] = NULL;

@@ -6,16 +6,16 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:30:22 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 22:15:52 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/30 14:46:38 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
 
-static int	is_blank(int c)
-{
-	return (c == ' ' || c == '\t');
-}
+// static int	is_blank(int c)
+// {
+// 	return (c == ' ' || c == '\t');
+// }
 
 static int	row_len_upto_nl(char *s)
 {

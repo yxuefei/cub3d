@@ -55,37 +55,75 @@ void game_loop(void *param)
 	render_frame_textured(game);
 }
 
-int main(int argc, char **argv)
+// int main(int argc, char **argv)
+// {
+// 	t_game game;
+
+// 	if (argc != 2)
+// 	{
+// 		printf("Usage: %s map.cub\n", argv[0]);
+// 		return 1;
+// 	}
+
+// 	game.data = parse_cub_file(argv[1]);
+// 	game.player.x = game.data->player_x + 0.5;
+// 	game.player.y = game.data->player_y + 0.5;
+// 	game.player.dir_x = -1; // look at the North
+// 	game.player.dir_y = 0;
+// 	game.player.plane_x = 0;
+// 	game.player.plane_y = FOV;
+
+// 	game.mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", true);
+// 	if (!game.mlx)
+// 		error_general("mlx_init");
+// 	game.img = mlx_new_image(game.mlx, WIN_WIDTH, WIN_HEIGHT);
+// 	if (!game.mlx)
+// 		error_general("mlx_new_window");
+// 	if (mlx_image_to_window(game.mlx, game.img, 0, 0) < 0)
+// 		error_general("mlx_image_to_window");
+
+// 	load_textures(&game);
+
+// 	mlx_loop_hook(game.mlx, game_loop, &game);
+
+// 	mlx_loop(game.mlx);
+// 	return 0;
+// }
+
+//parsing test main
+int	main(int argc, char **argv)
 {
-	t_game game;
+	t_cub_data	*d;
+	int			i;
+	t_game		game;
 
 	if (argc != 2)
 	{
-		printf("Usage: %s map.cub\n", argv[0]);
-		return 1;
+		printf("Usage: %s <map.cub>\n", argv[0]);
+		return (1);
 	}
-
-	game.data = parse_cub_file(argv[1]);
-	game.player.x = game.data->player_x + 0.5;
-	game.player.y = game.data->player_y + 0.5;
-	game.player.dir_x = -1; // look at the North
-	game.player.dir_y = 0;
-	game.player.plane_x = 0;
-	game.player.plane_y = FOV;
-
-	game.mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", true);
-	if (!game.mlx)
-		error_general("mlx_init");
-	game.img = mlx_new_image(game.mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!game.mlx)
-		error_general("mlx_new_window");
-	if (mlx_image_to_window(game.mlx, game.img, 0, 0) < 0)
-		error_general("mlx_image_to_window");
-
-	load_textures(&game);
-
-	mlx_loop_hook(game.mlx, game_loop, &game);
-
-	mlx_loop(game.mlx);
-	return 0;
+	d = parse_cub_file(&game, argv[1]);
+	if (!d)
+	{
+		printf("Error: parsing failed.\n");
+		return (1);
+	}
+	printf("NO: %s\n", d->no);
+	printf("SO: %s\n", d->so);
+	printf("WE: %s\n", d->we);
+	printf("EA: %s\n", d->ea);
+	printf("Floor: 0x%06X\n", d->floor_color);
+	printf("Ceiling: 0x%06X\n", d->ceiling_color);
+	printf("Player: (%d,%d) dir=%c\n",
+		d->player_x, d->player_y, d->player_dir);
+	printf("Map:\n");
+	i = 0;
+	while (d->map && d->map[i])
+	{
+		printf("%s\n", d->map[i]);
+		i++;
+	}
+	free_data(d);
+	free(d);
+	return (0);
 }

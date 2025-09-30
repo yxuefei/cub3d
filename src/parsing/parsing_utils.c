@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 01:24:20 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 22:21:50 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/30 14:49:19 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*parse_texture_path(const char *s)
 	path = ft_substr(s, start, end - start);
 	if (!path)
 		return (NULL);
-	if ((int)ft_strlen(path) < 4 || ft_strncmp(path + strlen(path) - 4, ".xpm", 4) != 0)
+	if ((int)ft_strlen(path) < 4 || ft_strncmp(path + ft_strlen(path) - 4, ".xpm", 4) != 0)
 	{
 		free(path);
 		return (NULL);

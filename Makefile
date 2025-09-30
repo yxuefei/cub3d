@@ -7,7 +7,7 @@ NAME = cub3d
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS = src/main.c src/ray_casting/render.c src/cub3d_parser.c src/utils/error_handling.c
+SRCS = src/main.c src/ray_casting/render.c src/utils/error_handling.c src/parsing/check_border.c src/parsing/check_element.c src/parsing/check_file.c src/parsing/check_map_is_last.c src/parsing/check_map.c src/parsing/check_player_start.c src/parsing/check_texture.c src/parsing/create_game_map.c src/parsing/fill_color_texture.c src/parsing/get_file_data.c src/parsing/load_cub_file.c src/parsing/map_access.c src/parsing/parser_cub_file.c src/parsing/parsing_utils.c src/parsing/parsing.c
 OBJS = $(SRCS:.c=.o)
 
 MLX_DIR := ./MLX42
