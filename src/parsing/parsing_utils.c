@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 01:24:20 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/30 14:49:19 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/30 15:34:24 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ int	get_map_height(char **map)
 
 static void	skip_spaces(const char *s, int *i)
 {
-	while (s[*i] == ' ' || s[*i] == '\t')
+	while (s[*i] == ' ' || s[*i] == '\t'
+		|| s[*i] == '\r' || s[*i] == '\n'
+		|| s[*i] == '\v' || s[*i] == '\f')
 		(*i)++;
 }
 
@@ -68,6 +70,7 @@ int	parse_color_string(const char *s)
 	if (b < 0)
 		return (-1);
 	skip_spaces(s, &i);
+	//problem is here, here returns -1
 	if (s[i] != '\0')
 		return (-1);
 	if (r > 255 || g > 255 || b > 255)
@@ -96,11 +99,11 @@ char	*parse_texture_path(const char *s)
 	path = ft_substr(s, start, end - start);
 	if (!path)
 		return (NULL);
-	if ((int)ft_strlen(path) < 4 || ft_strncmp(path + ft_strlen(path) - 4, ".xpm", 4) != 0)
-	{
-		free(path);
-		return (NULL);
-	}
+	// if ((int)ft_strlen(path) < 4 || ft_strncmp(path + ft_strlen(path) - 4, ".xpm", 4) != 0)
+	// {
+	// 	free(path);
+	// 	return (NULL);
+	// }
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
