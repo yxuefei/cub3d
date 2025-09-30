@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 01:24:20 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/30 15:34:24 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/30 16:04:26 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	parse_color_string(const char *s)
 	if (b < 0)
 		return (-1);
 	skip_spaces(s, &i);
-	//problem is here, here returns -1
 	if (s[i] != '\0')
 		return (-1);
 	if (r > 255 || g > 255 || b > 255)

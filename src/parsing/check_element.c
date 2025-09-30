@@ -6,13 +6,13 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:21:30 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 00:29:56 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/30 16:05:10 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
 
-static int	is_blank(char c)
+int	is_blank(char c)
 {
 	return (c == ' ' || c == '\t');
 }

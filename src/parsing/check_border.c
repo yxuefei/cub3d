@@ -6,18 +6,11 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 00:02:24 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 20:40:05 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/30 16:06:56 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
-
-static int	is_blank(char c)
-{
-	if (c == ' ' || c == '\t')
-		return (1);
-	return (0);
-}
 
 static int	effective_end(const char *s)
 {

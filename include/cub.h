@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/30 14:48:53 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/30 16:13:29 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,6 @@
 
 /* path */
 # include "../libft/get_next_line.h"
-
-# define PNG_PLAYER		"./assets/player2.png"
-# define PNG_COLLECT	"./assets/collect.png"
-# define PNG_EXIT		"./assets/exit.png"
-# define PNG_WALL		"./assets/wall1.png"
-# define PNG_FLOOR		"./assets/floor.png"
-
-# define ENEMY1		"./assets/enemy1.png"
-# define ENEMY2		"./assets/enemy2.png"
-# define ENEMY3		"./assets/enemy3.png"
-# define ENEMY4		"./assets/enemy4.png"
-# define ENEMY5		"./assets/enemy5.png"
-
-# define WALL		'1'
-# define FLOOR		'0'
-# define PLAYER		'P'
-# define EXIT		'E'
-# define COLLECT	'C'
 
 typedef struct s_img
 {
@@ -166,6 +148,7 @@ t_cub_data	*parse_cub_file(t_game *g, char *filename);
 void		free_data(t_cub_data *d);
 char		map_at(t_cub_data *d, int x, int y);
 int			map_is_wall(t_cub_data *d, double x, double y);
+int			is_blank(char c);
 
 
 

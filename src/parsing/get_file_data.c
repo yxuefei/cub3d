@@ -6,16 +6,11 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:00:54 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/30 15:35:49 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/09/30 16:09:07 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
-
-static int	is_blank(int c)
-{
-	return (c == ' ' || c == '\t');
-}
 
 static void	skip_ws(const char *s, int *i)
 {
