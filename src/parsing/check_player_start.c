@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:30:22 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/01 16:41:35 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/01 17:13:37 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ int	fix_and_validate_player_pos(t_cub_data *d)
 // 	return (1);
 // }
 
-/* 邻格是否“越界/短行”（视为空气） */
-static int	is_oob(char **map, int y, int x)
+/* 取 (y,x) 的字符；越界/短行 返回 ' '（空气） */
+static char	cell_at(char **map, int y, int x)
 {
 	int	h;
 	int	w;
@@ -105,14 +105,20 @@ static int	is_oob(char **map, int y, int x)
 	while (map && map[h])
 		h++;
 	if (y < 0 || y >= h)
-		return (1);
+		return (' ');
 	w = row_len_upto_nl(map[y]);
 	if (x < 0 || x >= w)
-		return (1);
-	return (0);
+		return (' ');
+	return (map[y][x]);
 }
 
-/* 对每个 '0'：任一四邻越界→不封闭；行内空格视为墙（允许紧贴） */
+/* 空气（不允许紧贴）：空格/Tab/回车 等 */
+static int	is_air(int c)
+{
+	return (c == ' ' || c == '\t' || c == '\r');
+}
+
+/* 核心：对每个 '0'，若任一四邻是“空气”，则不封闭 -> 返回 0 */
 int	check_open_tiles_closed(char **map)
 {
 	int	y;
@@ -132,10 +138,10 @@ int	check_open_tiles_closed(char **map)
 		{
 			if (map[y][x] == '0')
 			{
-				if (is_oob(map, y - 1, x)
-					|| is_oob(map, y + 1, x)
-					|| is_oob(map, y, x - 1)
-					|| is_oob(map, y, x + 1))
+				if (is_air(cell_at(map, y - 1, x))
+					|| is_air(cell_at(map, y + 1, x))
+					|| is_air(cell_at(map, y, x - 1))
+					|| is_air(cell_at(map, y, x + 1)))
 					return (0);
 			}
 			x++;
