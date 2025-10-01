@@ -42,9 +42,9 @@ void	draw_floor_ceiling(t_game *game, int y_start, int y_end)
 	while (y < y_end)
 	{
 		x = 0;
-		while (x < WIN_WIDTH)
+		while (x < game->win_width)
 		{
-			if (y < WIN_HEIGHT / 2)
+			if (y < game->win_height / 2)
 				mlx_put_pixel(game->img, x, y, game->data->ceiling_color);
 			else
 				mlx_put_pixel(game->img, x, y, game->data->floor_color);
@@ -84,7 +84,7 @@ void	init_ray(t_game *game, int x, t_ray *ray)
 {
 	double	camera_x;
 
-	camera_x = 2 * x / (double)WIN_WIDTH - 1;
+	camera_x = 2 * x / (double)game->win_width - 1;
 	ray->ray_dir_x = game->player.dir_x + game->player.plane_x * camera_x;
 	ray->ray_dir_y = game->player.dir_y + game->player.plane_y * camera_x;
 	ray->map_x = (int)game->player.x;
@@ -162,13 +162,13 @@ static void	calc_column_params(t_game *game, int x,
 	init_ray(game, x, ray);
 	perform_dda(game, ray, &params->side);
 	params->perp_wall_dist = calc_wall_distance(game, ray, params->side);
-	params->line_height = (int)(WIN_HEIGHT / params->perp_wall_dist);
-	params->draw_start = -params->line_height / 2 + WIN_HEIGHT / 2;
+	params->line_height = (int)(game->win_height / params->perp_wall_dist);
+	params->draw_start = -params->line_height / 2 + game->win_height / 2;
 	if (params->draw_start < 0)
 		params->draw_start = 0;
-	params->draw_end = params->line_height / 2 + WIN_HEIGHT / 2;
-	if (params->draw_end >= WIN_HEIGHT)
-		params->draw_end = WIN_HEIGHT - 1;
+	params->draw_end = params->line_height / 2 + game->win_height / 2;
+	if (params->draw_end >= game->win_height)
+		params->draw_end = game->win_height - 1;
 }
 
 void	draw_wall_column(t_game *game, int x, t_column_params *params)
@@ -179,7 +179,7 @@ void	draw_wall_column(t_game *game, int x, t_column_params *params)
 	y = params->draw_start;
 	while (y < params->draw_end)
 	{
-		column_params.d = y * 256 - WIN_HEIGHT * 128
+		column_params.d = y * 256 - game->win_height * 128
 			+ params->line_height * 128;
 		column_params.tex_y = ((column_params.d
 					* params->tex->height) / params->line_height) / 256;
@@ -230,9 +230,9 @@ void	render_frame_textured(t_game *game)
 {
 	int	x;
 
-	draw_floor_ceiling(game, 0, WIN_HEIGHT);
+	draw_floor_ceiling(game, 0, game->win_height);
 	x = 0;
-	while (x < WIN_WIDTH)
+	while (x < game->win_width)
 	{
 		render_column(game, x);
 		x++;

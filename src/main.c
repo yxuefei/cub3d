@@ -33,6 +33,25 @@ void move_player(t_game *game, int direction)
 		game->player.y = next_y;
 }
 
+void strafe_player(t_game *game, int direction)
+{
+	double	speed;
+	double	next_x;
+	double	next_y;
+	double	side_x;
+	double	side_y;
+
+	speed = 0.05 * direction;
+	side_x = game->player.dir_y;
+	side_y = -game->player.dir_x;
+	next_x = game->player.x + side_x * speed;
+	next_y = game->player.y + side_y * speed;
+	if (game->data->map[(int)game->player.y][(int)next_x] != '1')
+		game->player.x = next_x;
+	if (game->data->map[(int)next_y][(int)game->player.x] != '1')
+		game->player.y = next_y;
+}
+
 void	game_loop(void *param)
 {
 	t_game	*game;
@@ -42,13 +61,32 @@ void	game_loop(void *param)
 		move_player(game, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
 		move_player(game, -1);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
-		rotate_player(game, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+		strafe_player(game, 1);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
+		strafe_player(game, -1);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+		rotate_player(game, 1);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		rotate_player(game, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
 	render_frame_textured(game);
+}
+
+void	handle_resize(int new_width, int new_height, void *param)
+{
+	t_game *game = (t_game *)param;
+
+	game->win_height = new_height;
+	game->win_width = new_width;
+	if (game->img)
+		mlx_delete_image(game->mlx, game->img);
+	game->img = mlx_new_image(game->mlx, game->win_width, game->win_height);
+	if (!game->img)
+		error_general("Failed to create a new image");
+	if (mlx_image_to_window(game->mlx, game->img, 0, 0) < 0)
+		error_general("mlx_image_to_window");
 }
 
 int main(int argc, char **argv)
@@ -69,7 +107,9 @@ int main(int argc, char **argv)
 	game.player.plane_x = 0;
 	game.player.plane_y = FOV;
 
-	game.mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", true);
+	game.win_height = WIN_HEIGHT;
+	game.win_width = WIN_WIDTH;
+	game.mlx = mlx_init(game.win_width, game.win_height, "Cub3D", true);
 	if (!game.mlx)
 		error_general("mlx_init");
 	game.img = mlx_new_image(game.mlx, WIN_WIDTH, WIN_HEIGHT);
@@ -81,7 +121,7 @@ int main(int argc, char **argv)
 	load_textures(&game);
 
 	mlx_loop_hook(game.mlx, game_loop, &game);
-
+	mlx_resize_hook(game.mlx, handle_resize, &game);
 	mlx_loop(game.mlx);
 	return 0;
 }
