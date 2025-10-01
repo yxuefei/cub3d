@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 		return (1);
 	}
 
-	game.data = parse_cub_file(argv[1]);
+	game.data = parse_cub_file(&game, argv[1]);
 	game.player.x = game.data->player_x + 0.5;
 	game.player.y = game.data->player_y + 0.5;
 	game.player.dir_x = -1; // look at the North
