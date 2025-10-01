@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:30:22 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/30 16:08:43 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/01 16:41:35 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,37 +55,87 @@ int	fix_and_validate_player_pos(t_cub_data *d)
 	return (1);
 }
 
-int	check_open_tiles_closed(char **map)
+// int	check_open_tiles_closed(char **map)
+// {
+// 	int	h;
+// 	int	y;
+// 	int	x;
+// 	int	rowlen;
+
+// 	if (!map)
+// 		return (0);
+// 	h = 0;
+// 	while (map[h])
+// 		h++;
+// 	if (h < 3)
+// 		return (0);
+// 	y = 0;
+// 	while (y < h)
+// 	{
+// 		rowlen = row_len_upto_nl(map[y]);
+// 		x = 0;
+// 		while (x < rowlen)
+// 		{
+// 			if (map[y][x] == '0')
+// 			{
+// 				if (y == 0 || y == h - 1)
+// 					return (0);
+// 				if (row_len_upto_nl(map[y - 1]) <= x
+// 					|| row_len_upto_nl(map[y + 1]) <= x
+// 					|| x == 0 || x + 1 >= rowlen)
+// 					return (0);
+// 				if (!safe_cell(map[y - 1][x]) || !safe_cell(map[y + 1][x])
+// 					|| !safe_cell(map[y][x - 1]) || !safe_cell(map[y][x + 1]))
+// 					return (0);
+// 			}
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	return (1);
+// }
+
+/* 邻格是否“越界/短行”（视为空气） */
+static int	is_oob(char **map, int y, int x)
 {
 	int	h;
+	int	w;
+
+	h = 0;
+	while (map && map[h])
+		h++;
+	if (y < 0 || y >= h)
+		return (1);
+	w = row_len_upto_nl(map[y]);
+	if (x < 0 || x >= w)
+		return (1);
+	return (0);
+}
+
+/* 对每个 '0'：任一四邻越界→不封闭；行内空格视为墙（允许紧贴） */
+int	check_open_tiles_closed(char **map)
+{
 	int	y;
 	int	x;
-	int	rowlen;
+	int	h;
+	int	w;
 
-	if (!map)
-		return (0);
 	h = 0;
-	while (map[h])
+	while (map && map[h])
 		h++;
-	if (h < 3)
-		return (0);
 	y = 0;
 	while (y < h)
 	{
-		rowlen = row_len_upto_nl(map[y]);
+		w = row_len_upto_nl(map[y]);
 		x = 0;
-		while (x < rowlen)
+		while (x < w)
 		{
 			if (map[y][x] == '0')
 			{
-				if (y == 0 || y == h - 1)
-					return (0);
-				if (row_len_upto_nl(map[y - 1]) <= x
-					|| row_len_upto_nl(map[y + 1]) <= x
-					|| x == 0 || x + 1 >= rowlen)
-					return (0);
-				if (!safe_cell(map[y - 1][x]) || !safe_cell(map[y + 1][x])
-					|| !safe_cell(map[y][x - 1]) || !safe_cell(map[y][x + 1]))
+				if (is_oob(map, y - 1, x)
+					|| is_oob(map, y + 1, x)
+					|| is_oob(map, y, x - 1)
+					|| is_oob(map, y, x + 1))
 					return (0);
 			}
 			x++;
