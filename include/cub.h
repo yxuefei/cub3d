@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/29 16:17:31 by alex             ###   ########.fr       */
+/*   Updated: 2025/10/02 11:26:48 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,34 +34,6 @@
 /* path */
 # include "../libft/get_next_line.h"
 
-typedef struct s_img
-{
-	mlx_image_t	*floor_img;
-	mlx_image_t	*wall_img;
-	mlx_image_t	*exit_img;
-	mlx_image_t	*player_img;
-	mlx_image_t	*collect_img;
-}				t_img;
-
-typedef struct s_map
-{
-	int	columns;
-	int	rows;
-	int	collect_num;
-	int	player_num;
-	int	exit_num;
-}		t_map;
-
-typedef struct s_enemy
-{
-	mlx_image_t	*frames[5];
-	int			cur;
-	int			delay;
-	int			move;
-	int			x;
-	int			y;
-}				t_enemy;
-
 typedef struct s_cub_data
 {
 	char *no;
@@ -71,8 +43,6 @@ typedef struct s_cub_data
 	int  floor_color;
 	int  ceiling_color;
 	char **map;
-	// int map_rows;
-	// int map_cols;
 	int player_x;
 	int player_y;
 	char player_dir;

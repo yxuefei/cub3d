@@ -89,6 +89,30 @@ void	handle_resize(int new_width, int new_height, void *param)
 		error_general("mlx_image_to_window");
 }
 
+void	cleanup(t_game *game)
+{
+	int	i;
+
+	if (!game)
+		return;
+	if (game->img)
+		mlx_delete_image(game->mlx, game->img);
+	i = 0;
+	while (i < 4)
+	{
+		if (game->tex[i].tex)
+			mlx_delete_texture(game->tex[i].tex);
+		i++;
+	}
+	if (game->data)
+	{
+		free_data(game->data);
+		free(game->data);
+	}
+	if (game->mlx)
+		mlx_terminate(game->mlx);
+}
+
 int main(int argc, char **argv)
 {
 	t_game game;
@@ -115,7 +139,7 @@ int main(int argc, char **argv)
 	if (!game.mlx)
 		error_general("mlx_init");
 	game.img = mlx_new_image(game.mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!game.mlx)
+	if (!game.img)
 		error_general("mlx_new_window");
 	if (mlx_image_to_window(game.mlx, game.img, 0, 0) < 0)
 		error_general("mlx_image_to_window");
@@ -125,5 +149,6 @@ int main(int argc, char **argv)
 	mlx_loop_hook(game.mlx, game_loop, &game);
 	mlx_resize_hook(game.mlx, handle_resize, &game);
 	mlx_loop(game.mlx);
+	cleanup(&game);
 	return 0;
 }
