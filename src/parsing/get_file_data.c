@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:00:54 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/04 11:23:08 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 13:38:31 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,60 +25,67 @@ static int	assign_tex(char **dst, const char *line_after_id)
 	return (1);
 }
 
-static int	parse_header_line(t_cub_data *d, const char *line)
+static int	handle_tex(const char *line, const char *id, char **dst)
 {
-	if (starts_with_id(line, "NO"))
-		return (assign_tex(&d->no, line + 2));
-	if (starts_with_id(line, "SO"))
-		return (assign_tex(&d->so, line + 2));
-	if (starts_with_id(line, "WE"))
-		return (assign_tex(&d->we, line + 2));
-	if (starts_with_id(line, "EA"))
-		return (assign_tex(&d->ea, line + 2));
-	if (starts_with_id(line, "F"))
-	{
-		if (d->floor_color != -1)
-			return (-1);
-		if (set_floor_color_from_line(d, line))
-			return (1);
+	const char	*p;
+
+	p = after_id_ptr(line, id);
+	if (!p)
+		return (0);
+	if (*dst)
 		return (-1);
-	}
-	if (starts_with_id(line, "C"))
-	{
-		if (d->ceiling_color != -1)
-			return (-1);
-		if (set_ceiling_color_from_line(d, line))
-			return (1);
-		return (-1);
-	}
-	return (0);
+	return (assign_tex(dst, p));
 }
 
-int	parse_scene(char **lines, t_cub_data *d)
+static int	handle_floor(t_cub_data *d, const char *line)
 {
-	int	i;
-	int	r;
-	int	s;
-	int	e;
+	const char	*p;
 
-	if (!lines || !d)
+	p = after_id_ptr(line, "F");
+	if (!p)
 		return (0);
-	i = 0;
-	while (lines[i] && !is_map_line(lines[i]))
-	{
-		r = parse_header_line(d, lines[i]);
-		if (r == -1)
-			return (0);
-		if (r == 0 && is_nonblank_line(lines[i]))
-			return (0);
-		i++;
-	}
-	if (!find_map_range(lines, &s, &e))
-		return (0);
-	d->map = create_game_map(lines, s, e);
-	if (!d->map)
-		return (0);
-	if (!check_map_is_last(lines, e))
-		return (0);
+	if (d->floor_color != -1)
+		return (-1);
+	if (!set_floor_color_from_line(d, p))
+		return (-1);
 	return (1);
+}
+
+static int	handle_ceiling(t_cub_data *d, const char *line)
+{
+	const char	*p;
+
+	p = after_id_ptr(line, "C");
+	if (!p)
+		return (0);
+	if (d->ceiling_color != -1)
+		return (-1);
+	if (!set_ceiling_color_from_line(d, p))
+		return (-1);
+	return (1);
+}
+
+int	parse_header_line(t_cub_data *d, const char *line)
+{
+	int	r;
+
+	r = handle_tex(line, "NO", &d->no);
+	if (r)
+		return (r);
+	r = handle_tex(line, "SO", &d->so);
+	if (r)
+		return (r);
+	r = handle_tex(line, "WE", &d->we);
+	if (r)
+		return (r);
+	r = handle_tex(line, "EA", &d->ea);
+	if (r)
+		return (r);
+	r = handle_floor(d, line);
+	if (r)
+		return (r);
+	r = handle_ceiling(d, line);
+	if (r)
+		return (r);
+	return (0);
 }

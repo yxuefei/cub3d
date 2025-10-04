@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 11:18:59 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/04 11:22:48 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 12:40:24 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	skip_ws(const char *s, int *i)
 {
-	while (s[*i] && is_blank((unsigned char)s[*i]))
+	while (s[*i] && (s[*i] == ' ' || s[*i] == '\t' || s[*i] == '\r'))
 		(*i)++;
 }
 
@@ -51,9 +51,28 @@ int	is_nonblank_line(const char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (!is_blank((unsigned char)s[i]) && s[i] != '\n')
+		if (s[i] != ' ' && s[i] != '\t' && s[i] != '\r' && s[i] != '\n')
 			return (1);
 		i++;
 	}
 	return (0);
+}
+
+const char	*after_id_ptr(const char *line, const char *id)
+{
+	int	i;
+	int	k;
+
+	if (!line || !id)
+		return (NULL);
+	i = 0;
+	skip_ws(line, &i);
+	k = 0;
+	while (id[k] && line[i + k] == id[k])
+		k++;
+	if (id[k] != '\0')
+		return (NULL);
+	i += k;
+	skip_ws(line, &i);
+	return (line + i);
 }

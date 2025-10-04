@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 00:43:05 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/01 15:59:41 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 13:38:44 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,35 @@ static int	fail_cleanup(char **lines, t_cub_data *d)
 		free_lines(lines);
 	free_data(d);
 	return (0);
+}
+
+int	parse_scene(char **lines, t_cub_data *d)
+{
+	int	i;
+	int	r;
+	int	s;
+	int	e;
+
+	if (!lines || !d)
+		return (0);
+	i = 0;
+	while (lines[i] && !is_map_line(lines[i]))
+	{
+		r = parse_header_line(d, lines[i]);
+		if (r == -1)
+			return (0);
+		if (r == 0 && is_nonblank_line(lines[i]))
+			return (0);
+		i++;
+	}
+	if (!find_map_range(lines, &s, &e))
+		return (0);
+	d->map = create_game_map(lines, s, e);
+	if (!d->map)
+		return (0);
+	if (!check_map_is_last(lines, e))
+		return (0);
+	return (1);
 }
 
 int	load_and_parse(char *path, t_cub_data *d)

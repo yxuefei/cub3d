@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 01:24:20 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/04 10:46:11 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 12:51:21 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ char	*parse_texture_path(const char *s)
 	while (s[i] && s[i] != '\n')
 		i++;
 	end = i;
-	while (end > start && (s[end - 1] == ' ' || s[end - 1] == '\t'))
+	while (end > start && (s[end - 1] == ' '
+			|| s[end - 1] == '\t' || s[end - 1] == '\r'))
 		end--;
 	path = ft_substr(s, start, end - start);
 	if (!path || !is_valid_path(path))

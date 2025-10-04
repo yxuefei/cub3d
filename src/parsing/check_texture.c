@@ -6,13 +6,13 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:38:47 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/04 10:38:19 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 12:30:52 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
 
-static int	check_file_exists_and_xpm(char *path)
+static int	check_file_exists(char *path)
 {
 	int		fd;
 	int		len;
@@ -33,13 +33,13 @@ int	validate_textures(t_cub_data *d)
 {
 	if (!d || !d->no || !d->so || !d->we || !d->ea)
 		return (0);
-	if (!check_file_exists_and_xpm(d->no))
+	if (!check_file_exists(d->no))
 		return (0);
-	if (!check_file_exists_and_xpm(d->so))
+	if (!check_file_exists(d->so))
 		return (0);
-	if (!check_file_exists_and_xpm(d->we))
+	if (!check_file_exists(d->we))
 		return (0);
-	if (!check_file_exists_and_xpm(d->ea))
+	if (!check_file_exists(d->ea))
 		return (0);
 	if (d->floor_color < 0 || d->floor_color > 0xFFFFFF)
 		return (0);
