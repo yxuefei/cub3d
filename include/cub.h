@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/02 11:26:48 by alex             ###   ########.fr       */
+/*   Updated: 2025/10/04 11:21:57 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,5 +154,12 @@ void		free_data(t_cub_data *d);
 char		map_at(t_cub_data *d, int x, int y);
 int			map_is_wall(t_cub_data *d, double x, double y);
 int			is_blank(char c);
+int			first_noblank_idx(char *s);
+int			last_noblank_idx(char *s);
+int			row_len_upto_nl(char *s);
+int			starts_with_id(const char *s, const char *id);
+int			is_map_line(const char *s);
+int			is_nonblank_line(const char *s);
+void		skip_ws(const char *s, int *i);
 
 #endif

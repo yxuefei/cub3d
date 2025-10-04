@@ -6,57 +6,11 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:00:54 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/30 16:09:07 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 11:23:08 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
-
-static void	skip_ws(const char *s, int *i)
-{
-	while (s[*i] && is_blank((unsigned char)s[*i]))
-		(*i)++;
-}
-
-static int	starts_with_id(const char *s, const char *id)
-{
-	int	i;
-	int	k;
-
-	i = 0;
-	skip_ws(s, &i);
-	k = 0;
-	while (id[k])
-	{
-		if (s[i + k] != id[k])
-			return (0);
-		k++;
-	}
-	return (1);
-}
-
-static int	is_map_line(const char *s)
-{
-	int	i;
-
-	i = 0;
-	skip_ws(s, &i);
-	return (s[i] == '0' || s[i] == '1');
-}
-
-static int	is_nonblank_line(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (!is_blank((unsigned char)s[i]) && s[i] != '\n')
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 static int	assign_tex(char **dst, const char *line_after_id)
 {

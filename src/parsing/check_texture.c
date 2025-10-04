@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:38:47 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/30 15:17:04 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 10:38:19 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static int	check_file_exists_and_xpm(char *path)
 	len = (int)ft_strlen(path);
 	if (len < 4)
 		return (0);
-	// if (ft_strncmp(path + len - 4, ".xpm", 4) != 0)
-	// 	return (0);
 	return (1);
 }
 

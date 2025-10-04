@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:29:03 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/30 14:33:08 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 10:37:25 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ char	map_at(t_cub_data *d, int x, int y)
 
 int	map_is_wall(t_cub_data *d, double x, double y)
 {
-	int	grid_x;
-	int	grid_y;
+	int		grid_x;
+	int		grid_y;
 	char	c;
 
 	grid_x = (int)x;

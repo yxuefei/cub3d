@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:11:20 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/01 16:41:50 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 10:57:28 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,17 @@ static void	set_dir_plane_ns(t_player *p, char dir)
 {
 	if (dir == 'N')
 	{
-		p->dir_x = 0.0;  p->dir_y = -1.0;
-		p->plane_x = 0.66; p->plane_y = 0.0;
+		p->dir_x = 0.0;
+		p->dir_y = -1.0;
+		p->plane_x = 0.66;
+		p->plane_y = 0.0;
 	}
 	else
 	{
-		p->dir_x = 0.0;  p->dir_y = 1.0;
-		p->plane_x = -0.66; p->plane_y = 0.0;
+		p->dir_x = 0.0;
+		p->dir_y = 1.0;
+		p->plane_x = -0.66;
+		p->plane_y = 0.0;
 	}
 }
 
@@ -30,13 +34,17 @@ static void	set_dir_plane_ew(t_player *p, char dir)
 {
 	if (dir == 'E')
 	{
-		p->dir_x = 1.0;  p->dir_y = 0.0;
-		p->plane_x = 0.0; p->plane_y = 0.66;
+		p->dir_x = 1.0;
+		p->dir_y = 0.0;
+		p->plane_x = 0.0;
+		p->plane_y = 0.66;
 	}
 	else
 	{
-		p->dir_x = -1.0;  p->dir_y = 0.0;
-		p->plane_x = 0.0;  p->plane_y = -0.66;
+		p->dir_x = -1.0;
+		p->dir_y = 0.0;
+		p->plane_x = 0.0;
+		p->plane_y = -0.66;
 	}
 }
 
@@ -53,9 +61,9 @@ void	init_player_from_data(t_game *g)
 		set_dir_plane_ew(p, g->data->player_dir);
 }
 
-t_cub_data *parse_cub_file(t_game *g, char *filename)
+t_cub_data	*parse_cub_file(t_game *g, char *filename)
 {
-	t_cub_data *d;
+	t_cub_data	*d;
 
 	d = (t_cub_data *)malloc(sizeof(t_cub_data));
 	if (!d)

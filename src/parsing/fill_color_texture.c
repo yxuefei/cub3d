@@ -6,17 +6,11 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 19:09:03 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/30 16:08:58 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 11:22:41 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
-
-static void	skip_ws(const char *s, int *i)
-{
-	while (s[*i] && is_blank((unsigned char)s[*i]))
-		(*i)++;
-}
 
 /* parse "F 220,100,0"*/
 int	set_floor_color_from_line(t_cub_data *d, const char *line)

@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 00:51:04 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 20:37:30 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 10:46:50 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static bool	is_cub_file(char *arg)
 	return (arg[len - 4] == '.' && arg[len - 3] == 'c'
 		&& arg[len - 2] == 'u' && arg[len - 1] == 'b');
 }
-
 
 int	check_file(char *arg)
 {

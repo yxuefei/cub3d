@@ -1,51 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map_is_last.c                                :+:      :+:    :+:   */
+/*   check_border_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/23 01:07:11 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/04 10:40:12 by xueyang          ###   ########.fr       */
+/*   Created: 2025/10/04 10:53:01 by xueyang           #+#    #+#             */
+/*   Updated: 2025/10/04 10:53:21 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
 
-static int	is_blank_char(int c)
-{
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\r'
-		|| c == '\v' || c == '\f');
-}
-
-static int	is_blank_line(const char *s)
+static int	row_len(char *s)
 {
 	int	i;
 
 	if (!s)
-		return (1);
+		return (0);
 	i = 0;
 	while (s[i])
-	{
-		if (!is_blank_char((unsigned char)s[i]))
-			return (0);
 		i++;
-	}
-	return (1);
+	return (i);
 }
 
-int	check_map_is_last(char **lines, int map_end)
+int	first_noblank_idx(char *s)
 {
 	int	i;
 
-	if (!lines || map_end < 0)
-		return (0);
-	i = map_end;
-	while (lines[i])
-	{
-		if (!is_blank_line(lines[i]))
-			return (0);
+	if (!s)
+		return (-1);
+	i = 0;
+	while (s[i] && is_blank((unsigned char)s[i]))
 		i++;
-	}
-	return (1);
+	if (!s[i])
+		return (-1);
+	return (i);
+}
+
+int	last_noblank_idx(char *s)
+{
+	int	i;
+
+	if (!s)
+		return (-1);
+	i = row_len(s) - 1;
+	while (i >= 0 && is_blank((unsigned char)s[i]))
+		i--;
+	return (i);
 }

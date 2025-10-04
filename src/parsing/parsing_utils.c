@@ -6,23 +6,11 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 01:24:20 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/30 16:04:26 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 10:46:11 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
-
-int	get_map_height(char **map)
-{
-	int	count;
-
-	if (!map)
-		return (0);
-	count = 0;
-	while (map[count])
-		count++;
-	return (count);
-}
 
 static void	skip_spaces(const char *s, int *i)
 {
@@ -77,12 +65,25 @@ int	parse_color_string(const char *s)
 	return ((r << 16) | (g << 8) | b);
 }
 
+static int	is_valid_path(char *path)
+{
+	int	fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+	{
+		free(path);
+		return (0);
+	}
+	close(fd);
+	return (1);
+}
+
 char	*parse_texture_path(const char *s)
 {
 	int		i;
 	int		start;
 	int		end;
-	int		fd;
 	char	*path;
 
 	if (!s)
@@ -96,64 +97,7 @@ char	*parse_texture_path(const char *s)
 	while (end > start && (s[end - 1] == ' ' || s[end - 1] == '\t'))
 		end--;
 	path = ft_substr(s, start, end - start);
-	if (!path)
+	if (!path || !is_valid_path(path))
 		return (NULL);
-	// if ((int)ft_strlen(path) < 4 || ft_strncmp(path + ft_strlen(path) - 4, ".xpm", 4) != 0)
-	// {
-	// 	free(path);
-	// 	return (NULL);
-	// }
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-	{
-		free(path);
-		return (NULL);
-	}
-	close(fd);
 	return (path);
-}
-
-void	init_data(t_cub_data *d)
-{
-	if (!d)
-		return ;
-	d->no = NULL;
-	d->so = NULL;
-	d->we = NULL;
-	d->ea = NULL;
-	d->floor_color = -1;
-	d->ceiling_color = -1;
-	d->map = NULL;
-	d->player_x = -1;
-	d->player_y = -1;
-	d->player_dir = '\0';
-	d->mlx = NULL;
-	d->win = NULL;
-}
-
-void	free_data(t_cub_data *d)
-{
-	int	i;
-
-	if (!d)
-		return ;
-	free(d->no);
-	free(d->so);
-	free(d->we);
-	free(d->ea);
-	d->no = NULL;
-	d->so = NULL;
-	d->we = NULL;
-	d->ea = NULL;
-	if (d->map)
-	{
-		i = 0;
-		while (d->map[i])
-		{
-			free(d->map[i]);
-			i++;
-		}
-		free(d->map);
-		d->map = NULL;
-	}
 }

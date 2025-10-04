@@ -6,26 +6,11 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:51:12 by xueyang           #+#    #+#             */
-/*   Updated: 2025/09/23 19:55:39 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 11:09:11 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub.h"
-
-void	free_lines(char **lines)
-{
-	int	i;
-
-	if (!lines)
-		return ;
-	i = 0;
-	while (lines[i])
-	{
-		free(lines[i]);
-		i++;
-	}
-	free(lines);
-}
 
 /* kinda realloc, expand the capacity */
 static char	**grow_lines(char **arr, int *cap, int count)
@@ -51,9 +36,10 @@ static char	**grow_lines(char **arr, int *cap, int count)
 
 static void	free_partial(char **arr, int n)
 {
-	int i;
+	int	i;
 
-	if (!arr) return;
+	if (!arr)
+		return ;
 	i = 0;
 	while (i < n)
 	{
@@ -61,6 +47,22 @@ static void	free_partial(char **arr, int n)
 		i++;
 	}
 	free(arr);
+}
+
+static int	ensure_cap(char ***arr, int *cap, int n, char *line)
+{
+	char	**tmp;
+
+	if (n + 1 < *cap)
+		return (1);
+	tmp = grow_lines(*arr, cap, n);
+	if (!tmp)
+	{
+		free(line);
+		return (0);
+	}
+	*arr = tmp;
+	return (1);
 }
 
 static int	read_all_lines(int fd, char ***out_lines)
@@ -80,16 +82,10 @@ static int	read_all_lines(int fd, char ***out_lines)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		if (n + 1 >= cap)
+		if (!ensure_cap(&arr, &cap, n, line))
 		{
-			char **tmp = grow_lines(arr, &cap, n);
-			if (!tmp)
-			{
-				free(line);
-				free_partial(arr, n);
-				return (0);
-			}
-			arr = tmp;
+			free_partial(arr, n);
+			return (0);
 		}
 		arr[n++] = line;
 	}
