@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:30:22 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/04 11:16:59 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/04 12:26:21 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	safe_cell(char c)
 {
-	if (c == '\0' || c == '\n' || c == ' ' || c == '\t')
+	if (c == '\0' || c == '\n')
 		return (0);
 	return (1);
 }
@@ -44,7 +44,23 @@ int	fix_and_validate_player_pos(t_cub_data *d)
 	return (1);
 }
 
-static char	cell_at(char **map, int y, int x)
+// static char	cell_at(char **map, int y, int x)
+// {
+// 	int	h;
+// 	int	w;
+
+// 	h = 0;
+// 	while (map && map[h])
+// 		h++;
+// 	if (y < 0 || y >= h)
+// 		return (' ');
+// 	w = row_len_upto_nl(map[y]);
+// 	if (x < 0 || x >= w)
+// 		return (' ');
+// 	return (map[y][x]);
+// }
+
+static int	is_oob(char **map, int y, int x)
 {
 	int	h;
 	int	w;
@@ -53,19 +69,19 @@ static char	cell_at(char **map, int y, int x)
 	while (map && map[h])
 		h++;
 	if (y < 0 || y >= h)
-		return (' ');
+		return (1);
 	w = row_len_upto_nl(map[y]);
 	if (x < 0 || x >= w)
-		return (' ');
-	return (map[y][x]);
+		return (1);
+	return (0);
 }
 
 static int	is_open_adjacent(char **map, int y, int x)
 {
-	return (is_blank(cell_at(map, y - 1, x))
-		|| is_blank(cell_at(map, y + 1, x))
-		|| is_blank(cell_at(map, y, x - 1))
-		|| is_blank(cell_at(map, y, x + 1)));
+	return (is_oob(map, y - 1, x)
+		|| is_oob(map, y + 1, x)
+		|| is_oob(map, y, x - 1)
+		|| is_oob(map, y, x + 1));
 }
 
 int	check_open_tiles_closed(char **map)
