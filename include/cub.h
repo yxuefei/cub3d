@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/04 12:50:18 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/15 17:50:48 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,5 +163,6 @@ int			is_nonblank_line(const char *s);
 void		skip_ws(const char *s, int *i);
 const char	*after_id_ptr(const char *line, const char *id);
 int			parse_header_line(t_cub_data *d, const char *line);
+bool		is_png_file(char *arg);
 
 #endif
