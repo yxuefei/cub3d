@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 00:43:05 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/15 18:47:28 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/15 19:16:00 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	parse_scene(char **lines, t_cub_data *d)
 		i++;
 	}
 	if (!find_map_range(lines, &s, &e))
-		return (printf("Error: map block not found\n"), 0);
+		return (0);
 	d->map = create_game_map(lines, s, e);
 	if (!d->map)
 		return (printf("Error: map not created\n"), 0);

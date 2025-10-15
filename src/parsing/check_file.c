@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 00:51:04 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/15 18:45:34 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/15 19:17:13 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ int	check_file(char *arg)
 		return (printf("Error: FILE_NOT_EXIST\n"), 0);
 	close(fd);
 	if (!is_cub_file(arg))
-		return (error_general("Error: FILE_NOT_CUB\n"), 0);
+		return (printf("Error: FILE_NOT_CUB\n"), 0);
 	return (1);
 }
