@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:21:30 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/14 09:55:45 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/15 18:20:56 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ int	check_map_elements(t_cub_data *d)
 		while (d->map[y][x] && d->map[y][x] != '\n')
 		{
 			if (!process_cell(d, y, x, &player_cnt))
-				return (0, printf("Error: wrong elements"));
+				return (printf("Error: wrong elements"), 0);
 			x++;
 		}
 		y++;
 	}
 	if (player_cnt == 1)
-		return (0, printf("Error: wrong number of player"));
+		return (printf("Error: wrong number of player"), 0);
 	return (1);
 }

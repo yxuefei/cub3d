@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 19:11:32 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/14 10:15:08 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/15 18:23:53 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	find_map_range(char **lines, int *start, int *end)
 	while (lines[i] && !is_map_line(lines[i]))
 		i++;
 	if (!lines[i])
-		return (0, printf("Error: no map found"));
+		return (printf("Error: no map found"), 0);
 	*start = i;
 	while (lines[i] && is_map_line(lines[i]))
 		i++;
