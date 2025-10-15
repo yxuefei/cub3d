@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 00:43:05 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/14 10:12:54 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/15 18:06:04 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	parse_scene(char **lines, t_cub_data *d)
 	int	e;
 
 	if (!lines || !d)
-		return (0);
+		return (0, printf("Error: invalid parse input"));
 	i = 0;
 	while (lines[i] && !is_map_line(lines[i]))
 	{
@@ -36,11 +36,11 @@ int	parse_scene(char **lines, t_cub_data *d)
 		if (r == -1)
 			return (0, printf("Error: parse header"));
 		if (r == 0 && is_nonblank_line(lines[i]))
-			return (0, printf("Error: blank line"));
+			return (0, printf("Error: unexpected blank line"));
 		i++;
 	}
 	if (!find_map_range(lines, &s, &e))
-		return (0);
+		return (0, printf("Error: map block not found"));
 	d->map = create_game_map(lines, s, e);
 	if (!d->map)
 		return (0, printf("Error: map not created"));
@@ -54,7 +54,7 @@ int	load_and_parse(char *path, t_cub_data *d)
 	char	**lines;
 
 	if (!path || !d)
-		return (0, printf("Error: parse init"));
+		return (0, printf("Error: invalid input"));
 	if (!check_file(path))
 		return (0, printf("Error: cub file"));
 	if (!load_cub_file(path, &lines))
