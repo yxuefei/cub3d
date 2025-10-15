@@ -39,6 +39,7 @@ fclean: clean
 	$(RM) $(NAME)
 	make -C $(LIBFT_DIR) fclean
 	rm -rf $(MLX_DIR)/build/libmlx42.a
+	rm -rf tester
 re: fclean all
 
 %.o: %.c
