@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:31:54 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/01 16:41:47 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/14 10:00:08 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ int	validate_map(t_cub_data *d)
 		return (0);
 	h = get_map_height(d->map);
 	if (h < 3)
-		return (0);
+		return (0, printf("Error: map too small"));
 	if (!check_borders(d->map, h))
-		return (0);
+		return (0, printf("Error: wrong border"));
 	if (!check_map_elements(d))
 		return (0);
 	if (!fix_and_validate_player_pos(d))
-		return (0);
+		return (0, printf("Error: invalid player position"));
 	if (!check_open_tiles_closed(d->map))
-		return (0);
+		return (0, printf("Error: map not closed"));
 	return (1);
 }

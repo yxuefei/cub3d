@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 00:38:47 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/04 12:30:52 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/15 17:48:42 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static int	check_file_exists(char *path)
 	close(fd);
 	len = (int)ft_strlen(path);
 	if (len < 4)
+		return (0);
+	if (!is_png_file(path))
 		return (0);
 	return (1);
 }

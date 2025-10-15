@@ -6,7 +6,7 @@
 /*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:07:11 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/04 10:40:12 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/14 09:56:57 by xueyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	check_map_is_last(char **lines, int map_end)
 	int	i;
 
 	if (!lines || map_end < 0)
-		return (0);
+		return (0, printf("Error: map is not the last"));
 	i = map_end;
 	while (lines[i])
 	{
 		if (!is_blank_line(lines[i]))
-			return (0);
+			return (0, printf("Error: map is not the last"));
 		i++;
 	}
 	return (1);
