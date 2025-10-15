@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 
 	game.data = parse_cub_file(&game, argv[1]);
 	if (!game.data)
-		error_general("parse_cub_file");
+		exit(EXIT_FAILURE);
 	game.player.x = game.data->player_x + 0.5;
 	game.player.y = game.data->player_y + 0.5;
 	game.player.dir_x = -1; // look at the North

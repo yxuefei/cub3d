@@ -20,7 +20,7 @@ int main()
     char buffer[4096];
     
     int file_count = 1;
-    printf("==========BAD MAPS==========\n");
+    printf("\n==========BAD MAPS==========\n");
     while ((entry = readdir(dir_bad)) != NULL)
     {
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
