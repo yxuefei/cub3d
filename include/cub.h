@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omalovic <omalovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/15 17:50:48 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/16 13:34:24 by omalovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,14 @@ typedef struct s_wall_column_params
 
 // render.c
 void load_textures(t_game *game);
-// void render_frame_textured_hook(void *param);
+int	select_texture(t_ray *ray, int side);
 void render_frame_textured(t_game *game);
+void	set_ray_steps(t_game *game, t_ray *ray);
+int	perform_dda(t_game *game, t_ray *ray, int *side);
+double	calc_wall_distance(t_game *game, t_ray *ray, int side);
+
+// build_columns.c
+void	render_column(t_game *game, int x);
 
 // cub3d_parser.c
 // t_cub_data	*parse_cub_file(const char *filename);
