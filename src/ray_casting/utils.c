@@ -6,11 +6,19 @@
 /*   By: omalovic <omalovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 13:35:56 by omalovic          #+#    #+#             */
-/*   Updated: 2025/10/16 13:37:05 by omalovic         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:39:36 by omalovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
+
+void	error_general(char *msg)
+{
+	write(2, "Error: ", 7);
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
+	exit(EXIT_FAILURE);
+}
 
 void	load_textures(t_game *game)
 {
