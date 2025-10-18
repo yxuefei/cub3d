@@ -6,7 +6,7 @@
 /*   By: omalovic <omalovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 13:35:56 by omalovic          #+#    #+#             */
-/*   Updated: 2025/10/16 13:39:36 by omalovic         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:41:02 by omalovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ void	error_general(char *msg)
 	write(2, msg, ft_strlen(msg));
 	write(2, "\n", 1);
 	exit(EXIT_FAILURE);
+}
+
+uint32_t	color_to_rgba(uint32_t color)
+{
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+
+	r = (color >> 16) & 0xFF;
+	g = (color >> 8) & 0xFF;
+	b = color & 0xFF;
+	return ((r << 24) | (g << 16) | (b << 8) | 0xFF);
 }
 
 void	load_textures(t_game *game)

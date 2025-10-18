@@ -6,7 +6,7 @@
 /*   By: omalovic <omalovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 14:02:41 by omalovic          #+#    #+#             */
-/*   Updated: 2025/10/16 13:36:15 by omalovic         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:40:58 by omalovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,13 @@ double	calc_wall_distance(t_game *game, t_ray *ray, int side)
 
 void	draw_floor_ceiling(t_game *game, int y_start, int y_end)
 {
-	int	y;
-	int	x;
+	int			x;
+	int			y;
+	uint32_t	floor_color;
+	uint32_t	ceiling_color;
 
+	floor_color = color_to_rgba(game->data->floor_color);
+	ceiling_color = color_to_rgba(game->data->ceiling_color);
 	y = y_start;
 	while (y < y_end)
 	{
@@ -88,9 +92,9 @@ void	draw_floor_ceiling(t_game *game, int y_start, int y_end)
 		while (x < game->win_width)
 		{
 			if (y < game->win_height / 2)
-				mlx_put_pixel(game->img, x, y, game->data->ceiling_color);
+				mlx_put_pixel(game->img, x, y, ceiling_color);
 			else
-				mlx_put_pixel(game->img, x, y, game->data->floor_color);
+				mlx_put_pixel(game->img, x, y, floor_color);
 			x++;
 		}
 		y++;

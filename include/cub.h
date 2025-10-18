@@ -6,7 +6,7 @@
 /*   By: omalovic <omalovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 15:27:42 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/17 16:28:07 by omalovic         ###   ########.fr       */
+/*   Updated: 2025/10/18 15:41:14 by omalovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ double		calc_wall_distance(t_game *game, t_ray *ray, int side);
 
 // utils.c:
 void		error_general(char *msg);
+uint32_t	color_to_rgba(uint32_t color);
 void		load_textures(t_game *game);
 int			select_texture(t_ray *ray, int side);
 
