@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cub_file.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xueyang <xueyang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omalovic <omalovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:11:20 by xueyang           #+#    #+#             */
-/*   Updated: 2025/10/04 13:02:19 by xueyang          ###   ########.fr       */
+/*   Updated: 2025/10/18 13:17:47 by omalovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ static void	set_dir_plane_ns(t_player *p, char dir)
 	{
 		p->dir_x = 0.0;
 		p->dir_y = -1.0;
-		p->plane_x = 0.66;
+		p->plane_x = -0.66;
 		p->plane_y = 0.0;
 	}
 	else
 	{
 		p->dir_x = 0.0;
 		p->dir_y = 1.0;
-		p->plane_x = -0.66;
+		p->plane_x = 0.66;
 		p->plane_y = 0.0;
 	}
 }
@@ -37,14 +37,14 @@ static void	set_dir_plane_ew(t_player *p, char dir)
 		p->dir_x = 1.0;
 		p->dir_y = 0.0;
 		p->plane_x = 0.0;
-		p->plane_y = 0.66;
+		p->plane_y = -0.66;
 	}
 	else
 	{
 		p->dir_x = -1.0;
 		p->dir_y = 0.0;
 		p->plane_x = 0.0;
-		p->plane_y = -0.66;
+		p->plane_y = 0.66;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: omalovic <omalovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 13:41:18 by omalovic          #+#    #+#             */
-/*   Updated: 2025/10/16 14:03:41 by omalovic         ###   ########.fr       */
+/*   Updated: 2025/10/18 13:19:21 by omalovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,6 @@ void	init_player_win(t_game	*game)
 {
 	game->player.x = game->data->player_x + 0.5;
 	game->player.y = game->data->player_y + 0.5;
-	game->player.dir_x = -1;
-	game->player.dir_y = 0;
-	game->player.plane_x = 0;
-	game->player.plane_y = FOV;
 	game->win_height = WIN_HEIGHT;
 	game->win_width = WIN_WIDTH;
 }
